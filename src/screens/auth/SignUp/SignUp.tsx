@@ -46,11 +46,13 @@ const SignUp = () => {
             value={values.password}
             placeholder={'Enter your password...'}
             onChangeText={handleChange('password')}
+            secureTextEntry
           />
           <Input
             value={values.repassword}
             placeholder={'Enter your password...'}
             onChangeText={handleChange('repassword')}
+            secureTextEntry
           />
           <Button onPress={handleSubmit} title={'Sign Up'} />
 

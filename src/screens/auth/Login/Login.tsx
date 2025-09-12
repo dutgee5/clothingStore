@@ -33,7 +33,6 @@ const Login = () => {
   ) => {
     try {
       setStatus(undefined);
-      const auth = getAuth();
       const userCredential = await signInWithEmailAndPassword(
         getAuth(),
         values.email,
