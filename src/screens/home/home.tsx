@@ -6,12 +6,14 @@ import Input from '../../components/Input';
 import auth from '@react-native-firebase/auth';
 import Product from '../../components/Product';
 import firestore from '@react-native-firebase/firestore';
+import { useNavigation } from '@react-navigation/native';
 
 const Home = () => {
   const user = auth().currentUser;
   const [products, setProducts] = useState<any[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<any[]>([]);
   const [search, setSearch] = useState('');
+  const navigation = useNavigation();
 
   useEffect(() => {
     const unsubscribe = firestore()
@@ -21,7 +23,6 @@ const Home = () => {
           id: doc.id,
           ...doc.data(),
         }));
-        console.log('Firestore’dan gelen ürünler:', items); // 🔍 burada kontrol et
         setProducts(items);
         setFilteredProducts(items);
       });
@@ -38,17 +39,14 @@ const Home = () => {
       );
       setFilteredProducts(result);
     }
-    console.log('Search value:', search);
   }, [search, products]);
 
   return (
     <View>
       <View>
         <Text>Hello, Welcome 👋</Text>
-        <Text>{user?.email}</Text> {/*logged in user*/}
-        {/*
-      profile image
-      */}
+        <Text>{user?.email}</Text>
+        {/* profile image*/}
       </View>
 
       <View>
@@ -63,7 +61,14 @@ const Home = () => {
         <FlatList
           data={filteredProducts}
           keyExtractor={item => item.id.toString()}
-          renderItem={({ item }) => <Product item={item} />}
+          renderItem={({ item }) => (
+            <Product
+              item={item}
+              onPress={() => {
+                navigation.navigate('ProductDetail', { product: item });
+              }}
+            />
+          )}
           numColumns={2}
           showsVerticalScrollIndicator={false}
         />

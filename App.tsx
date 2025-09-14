@@ -13,6 +13,7 @@ import { Provider } from 'react-redux';
 import { getAuth, onAuthStateChanged } from '@react-native-firebase/auth';
 import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
 import { View } from 'react-native';
+import ProductDetail from './src/screens/home/ProductDetail';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -37,6 +38,26 @@ function TabBarIcon({ name, focused, color, size, iconStyle }: Props) {
     </View>
   );
 }
+
+const HomeStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Home"
+        component={Home}
+        options={{ headerTitle: 'Clothing Store', headerTitleAlign: 'center' }}
+      />
+      <Stack.Screen
+        name="ProductDetail"
+        component={ProductDetail}
+        options={({ route }) => ({
+          headerTitleAlign: 'center',
+          title: route.params.product.name,
+        })}
+      />
+    </Stack.Navigator>
+  );
+};
 function Tabs() {
   return (
     <Tab.Navigator
@@ -51,7 +72,7 @@ function Tabs() {
     >
       <Tab.Screen
         name="Home"
-        component={Home}
+        component={HomeStack}
         options={{
           tabBarIcon: props => (
             <TabBarIcon name={'house-chimney'} iconStyle="solid" {...props} />
