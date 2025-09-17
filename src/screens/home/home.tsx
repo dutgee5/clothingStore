@@ -1,12 +1,11 @@
 import { View, Text, FlatList } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
 import Input from '../../components/Input';
 import auth from '@react-native-firebase/auth';
 import Product from '../../components/Product';
 import firestore from '@react-native-firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const Home = () => {
   const user = auth().currentUser;
@@ -14,6 +13,7 @@ const Home = () => {
   const [filteredProducts, setFilteredProducts] = useState<any[]>([]);
   const [search, setSearch] = useState('');
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
 
   useEffect(() => {
     const unsubscribe = firestore()
@@ -57,22 +57,21 @@ const Home = () => {
         />
       </View>
 
-      <View>
-        <FlatList
-          data={filteredProducts}
-          keyExtractor={item => item.id.toString()}
-          renderItem={({ item }) => (
-            <Product
-              item={item}
-              onPress={() => {
-                navigation.navigate('ProductDetail', { product: item });
-              }}
-            />
-          )}
-          numColumns={2}
-          showsVerticalScrollIndicator={false}
-        />
-      </View>
+      <FlatList
+        data={filteredProducts}
+        keyExtractor={item => item.id.toString()}
+        renderItem={({ item }) => (
+          <Product
+            item={item}
+            onPress={() => {
+              navigation.navigate('ProductDetail', { product: item });
+            }}
+          />
+        )}
+        numColumns={2}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: insets.bottom + 120 }}
+      />
     </View>
   );
 };

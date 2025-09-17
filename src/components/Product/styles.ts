@@ -13,6 +13,7 @@ export default StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
+    position: 'relative',
   },
   image: {
     width: '100%',
@@ -31,5 +32,13 @@ export default StyleSheet.create({
     fontSize: 13,
     fontWeight: 'bold',
     color: '#e91e63',
+  },
+  favoriteButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    backgroundColor: 'rgba(255,255,255,0.8)',
+    borderRadius: 20,
+    padding: 6,
   },
 });
