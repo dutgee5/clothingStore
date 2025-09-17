@@ -5,7 +5,11 @@ import auth from '@react-native-firebase/auth';
 import Product from '../../components/Product';
 import firestore from '@react-native-firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
+import styles from './styles';
 
 const Home = () => {
   const user = auth().currentUser;
@@ -42,17 +46,18 @@ const Home = () => {
   }, [search, products]);
 
   return (
-    <View>
-      <View>
-        <Text>Hello, Welcome 👋</Text>
-        <Text>{user?.email}</Text>
-        {/* profile image*/}
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <View>
+          <Text style={styles.welcome}>Hello, Welcome 👋</Text>
+          <Text style={styles.email}>{user?.email}</Text>
+        </View>
       </View>
 
-      <View>
+      <View style={styles.searchContainer}>
         <Input
           value={search}
-          placeholder={'Search clothes. . . '}
+          placeholder={'Search clothes...'}
           onChangeText={text => setSearch(text)}
         />
       </View>
@@ -63,16 +68,15 @@ const Home = () => {
         renderItem={({ item }) => (
           <Product
             item={item}
-            onPress={() => {
-              navigation.navigate('ProductDetail', { product: item });
-            }}
+            onPress={() =>
+              navigation.navigate('ProductDetail', { product: item })
+            }
           />
         )}
         numColumns={2}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: insets.bottom + 120 }}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
