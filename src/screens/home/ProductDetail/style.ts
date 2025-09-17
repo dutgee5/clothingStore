@@ -20,7 +20,7 @@ export default StyleSheet.create({
   },
   price: {
     fontSize: 18,
-    color: 'green',
+    color: '#e91e63',
     marginBottom: 15,
   },
   quantityContainer: {

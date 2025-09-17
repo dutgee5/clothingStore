@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../../features/cart/cartSlice';
 import styles from './style';
+import { useNavigation } from '@react-navigation/native';
 
 const ProductDetail = ({ route }) => {
   const { product } = route.params;
   const [quantity, setQuantity] = useState(1);
+
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const increaseQuantity = () => setQuantity(prev => prev + 1);
   const decreaseQuantity = () => {
@@ -12,8 +18,8 @@ const ProductDetail = ({ route }) => {
   };
 
   const handleAddToCart = () => {
-    console.log('Sepete eklendi:', { ...product, quantity });
-    // burada Redux Toolkit ile sepete ekleme dispatch edebilirsin
+    dispatch(addToCart({ ...product, quantity }));
+    navigation.navigate('Cart');
   };
 
   return (
@@ -23,7 +29,7 @@ const ProductDetail = ({ route }) => {
       )}
 
       <Text style={styles.name}>{product.name}</Text>
-      <Text style={styles.price}>{product.price} TL</Text>
+      <Text style={styles.price}>{product.price} ₺</Text>
 
       <View style={styles.quantityContainer}>
         <TouchableOpacity
